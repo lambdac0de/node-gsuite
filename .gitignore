@@ -3,3 +3,6 @@ auth.json
 
 # Do not commit node_modules files. target system should build this.
 node_modules
+
+# DO not commit lock files
+*-lock.json
