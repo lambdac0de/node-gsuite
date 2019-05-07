@@ -2,7 +2,7 @@ const {google} = require('googleapis');
 
 const key = require('./../auth.json');
 const scopes = ['https://www.googleapis.com/auth/admin.directory.group.readonly','https://www.googleapis.com/auth/admin.directory.user.readonly'];
-const jwt = new google.auth.JWT(
+const auth = new google.auth.JWT(
     key.client_email,
     null,
     key.private_key, 
@@ -10,8 +10,8 @@ const jwt = new google.auth.JWT(
 const directory = google.admin('directory_v1');
 
 var authorize = (email) => {
-    jwt.subject = email;
-    jwt.authorize((err, response) => {
+    auth.subject = email;
+    auth.authorize((err, response) => {
         if (err) {
             return err;
         }
@@ -19,11 +19,12 @@ var authorize = (email) => {
 };
 
 var listUsers = (customer, maxResults, callback) => {
-    if (authorize(email)) {
+    if (authorize('svcgam@booking.com')) {
         return callback('Authorization failed');
     }
 
     directory.users.list({
+        auth,
         customer,
         maxResults,
         orderBy: 'email',
@@ -37,4 +38,8 @@ var listUsers = (customer, maxResults, callback) => {
             return callback('No users found');
         }
     });
+}
+
+module.exports = {
+    listUsers
 }
