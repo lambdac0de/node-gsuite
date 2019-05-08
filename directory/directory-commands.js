@@ -18,8 +18,8 @@ var authorize = (email) => {
     });
 };
 
-var listUsers = (customer, maxResults, callback) => {
-    if (authorize('svcgam@booking.com')) {
+var listUsers = (customer, impersonation, maxResults, callback) => {
+    if (authorize(impersonation)) {
         return callback('Authorization failed');
     }
 

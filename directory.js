@@ -8,6 +8,11 @@ const customerOptions = {
     demand: true,
     alias: "c"
 }
+const impersonationOptions = {
+    describe: "The Gsuite user account, likely with super admin privileges, to be impersonated when executing the command",
+    demand: true,
+    alias: "i"
+}
 const maxResultsOptions = {
     describe: "The number of records to return",
     demand: false,
@@ -18,6 +23,7 @@ const maxResultsOptions = {
 const argv = yargs
     .command('listUsers', 'List all users in Gsuite', {
         customer: customerOptions,
+        impersonation: impersonationOptions,
         maxResults: maxResultsOptions
     })
     .help()
@@ -26,7 +32,7 @@ const argv = yargs
 var command = argv._[0];
 
 if (command === 'listUsers') {
-    directory.listUsers(argv.customer, argv.maxResults, (err, res) => {
+    directory.listUsers(argv.customer, argv.impersonation, argv.maxResults, (err, res) => {
         if (err) {
             return console.log('Unable to list users, ', err);
         }
