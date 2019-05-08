@@ -33,7 +33,7 @@ var listUsers = (customer, maxResults, callback) => {
   
         const users = res.data.users;
         if (users.length) {
-            return callback(users);
+            return callback(null, users);
         } else {
             return callback('No users found');
         }
